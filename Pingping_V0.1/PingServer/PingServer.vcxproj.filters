@@ -18,5 +18,13 @@
     <ClCompile Include="PingServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Ping_Sever.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Ping_Sever.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

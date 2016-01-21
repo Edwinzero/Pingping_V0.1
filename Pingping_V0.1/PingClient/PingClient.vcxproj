@@ -125,6 +125,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="PingClient.cpp" />
+    <ClCompile Include="Ping_Client.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Ping_Client.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
