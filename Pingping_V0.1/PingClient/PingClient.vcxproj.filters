@@ -21,9 +21,18 @@
     <ClCompile Include="Ping_Client.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TestClientIdea.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ping_Client.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\NetEnvConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

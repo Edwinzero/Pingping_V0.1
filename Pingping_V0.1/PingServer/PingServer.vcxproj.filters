@@ -21,6 +21,9 @@
     <ClCompile Include="Ping_Sever.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TestServerIdea.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ping_Sever.h">

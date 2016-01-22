@@ -84,12 +84,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir);C:\GLWrappers\boost_1_59_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory);$(SolutionDir)Common;C:\GLWrappers\boost_1_59_0;C:\GLwrappers\boost_1_59_0_x64;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>boost_atomic-vc100-mt-gd-1_59.lib;boost_chrono-vc100-mt-gd-1_59.lib;boost_container-vc100-mt-gd-1_59.lib;boost_context-vc100-mt-gd-1_59.lib;boost_coroutine-vc100-mt-1_59.lib;boost_coroutine-vc100-mt-gd-1_59.lib;boost_date_time-vc100-mt-gd-1_59.lib;boost_filesystem-vc100-mt-gd-1_59.lib;boost_iostreams-vc100-mt-gd-1_59.lib;boost_log_setup-vc100-mt-gd-1_59.lib;boost_locale-vc100-mt-gd-1_59.lib;boost_log-vc100-mt-gd-1_59.lib;boost_program_options-vc100-mt-gd-1_59.lib;boost_serialization-vc100-mt-gd-1_59.lib;boost_signals-vc100-mt-gd-1_59.lib;boost_system-vc100-mt-gd-1_59.lib;boost_thread-vc100-mt-gd-1_59.lib;boost_timer-vc100-mt-gd-1_59.lib;boost_unit_test_framework-vc100-mt-gd-1_59.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\GLWrappers\boost_1_59_0\lib64-msvc-10.0;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\GLwrappers\boost_1_59_0_x64\lib64-msvc-10.0;C:\GLWrappers\boost_1_59_0\lib64-msvc-10.0;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -113,21 +113,24 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir);C:\GLWrappers\boost_1_59_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(MSBuildProjectDirectory);$(SolutionDir)Common;C:\GLWrappers\boost_1_59_0;C:\GLwrappers\boost_1_59_0_x64;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>boost_atomic-vc100-mt-1_59.lib;boost_chrono-vc100-mt-1_59.lib;boost_container-vc100-mt-1_59.lib;boost_context-vc100-mt-1_59.lib;boost_coroutine-vc100-mt-1_59.lib;boost_coroutine-vc100-mt-1_59.lib;boost_date_time-vc100-mt-1_59.lib;boost_filesystem-vc100-mt-1_59.lib;boost_iostreams-vc100-mt-1_59.lib;boost_log_setup-vc100-mt-1_59.lib;boost_locale-vc100-mt-1_59.lib;boost_log-vc100-mt-1_59.lib;boost_program_options-vc100-mt-1_59.lib;boost_serialization-vc100-mt-1_59.lib;boost_signals-vc100-mt-1_59.lib;boost_system-vc100-mt-1_59.lib;boost_thread-vc100-mt-1_59.lib;boost_timer-vc100-mt-1_59.lib;boost_unit_test_framework-vc100-mt-1_59.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\GLWrappers\boost_1_59_0\lib64-msvc-10.0;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\GLwrappers\boost_1_59_0_x64\lib64-msvc-10.0;C:\GLWrappers\boost_1_59_0\lib64-msvc-10.0;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="PingClient.cpp" />
     <ClCompile Include="Ping_Client.cpp" />
+    <ClCompile Include="TestClientIdea.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Common\NetEnvConfig.h" />
+    <ClInclude Include="..\Common\timer.h" />
     <ClInclude Include="Ping_Client.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
