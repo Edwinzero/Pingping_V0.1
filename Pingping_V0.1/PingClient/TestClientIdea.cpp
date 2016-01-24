@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
 
 		for (;;)
 		{
-			boost::array<char, 128> buf;
+			boost::array<char, 256> buf;
 			boost::system::error_code error;
 
 			size_t len = socket.read_some(boost::asio::buffer(buf), error);
