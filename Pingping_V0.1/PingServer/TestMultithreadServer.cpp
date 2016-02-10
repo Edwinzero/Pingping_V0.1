@@ -221,8 +221,12 @@ public:
 	}
 
 	void parsing_cmd(const std::string& cmd) {
+		Timer checkcmd;
+		checkcmd.Start();
 		cmd_ = cmd;
 		boost::lock_guard<boost::mutex> lock(mio);
+		checkcmd.Print("Execute parsing_cmd ... ");
+		
 		std::cout << "[HOLY SHIT] LISTEN TO PORT: " << port_ << " ** SUCCESS ** !!!" << std::endl;
 		
 		if (cmd_ == "get imgs") {
@@ -231,6 +235,7 @@ public:
 		}
 		else if (cmd_ == "start cap") {
 			std::cout << "[SYSTEM] :: SENDING 'GET IMAGES' COMMAND... " << std::endl;
+			checkcmd.Print("Start capture time is...");
 			// client session
 			boost::system::error_code error;
 			std::string cmd;
@@ -243,6 +248,7 @@ public:
 		}
 		else if (cmd == "stop cap") {
 			std::cout << "[SYSTEM] :: SENDING 'STOP CAPTURE' COMMAND... " << std::endl;
+			checkcmd.Print("STOP capture time is...");
 			boost::system::error_code error;
 			std::string cmd;
 			cmd.assign("stp", 4);
@@ -254,6 +260,7 @@ public:
 		}
 		else if (cmd == "set config") {
 			std::cout << "[SYSTEM] :: SENDING 'SET CONFIG' COMMAND... " << std::endl;
+			checkcmd.Print("Set config time is...");
 			boost::system::error_code error;
 			std::string cmd;
 			cmd.assign("cnf", 4);
@@ -265,6 +272,7 @@ public:
 		}
 		else if (cmd == "syn nodes") {
 			std::cout << "[SYSTEM] :: SENDING 'SYNCHRONIZE NODES' COMMAND... " << std::endl;
+			checkcmd.Print("Synchronize nodes cmd time is...");
 			boost::system::error_code error;
 			std::string cmd;
 			cmd.assign("syn", 4);
@@ -276,6 +284,7 @@ public:
 		}
 		else {
 			std::cout << "[SYSTEM] :: [Port]" << port_ <<":: INVALID COMMAND.. Please enter command again..." << std::endl;
+			checkcmd.Print("RECV INVALID CMD time is...");
 		}
 	}
 private:
@@ -320,14 +329,13 @@ int main()
 	{
 		// Maybe need 2 io_services, one for client func, one for server func
 		boost::asio::io_service io_service;
-		boost::asio::io_service::work work(io_service);
+		//boost::asio::io_service::work work(io_service);
+		boost::asio::strand strand(io_service);
 		tcp_server server0(io_service, 1113);
 		tcp_server server1(io_service, 1114);
 		tcp_server server2(io_service, 1115);
 		tcp_server server3(io_service, 1116);
 		boost::thread_group threads;
-
-		boost::mutex mutex;
 		// Service must be run before detecting cmd input
 		for (int i = 0; i < 4; i++) {
 			threads.create_thread(boost::bind(&boost::asio::io_service::run, &io_service));
@@ -335,12 +343,10 @@ int main()
 
 		char cmd_line[1024];
 		while (std::cin.getline(cmd_line, 1024)) {
-			//std::cin.getline(cmd_line, 1024);
-			//server.parsing_cmd(cmd_line);
-			io_service.post(boost::bind(&tcp_server::parsing_cmd, &server0, cmd_line));
-			io_service.post(boost::bind(&tcp_server::parsing_cmd, &server1, cmd_line));
-			io_service.post(boost::bind(&tcp_server::parsing_cmd, &server2, cmd_line));
-			io_service.post(boost::bind(&tcp_server::parsing_cmd, &server3, cmd_line));
+			strand.post(boost::bind(&tcp_server::parsing_cmd, &server0, cmd_line));
+			strand.post(boost::bind(&tcp_server::parsing_cmd, &server1, cmd_line));
+			strand.post(boost::bind(&tcp_server::parsing_cmd, &server2, cmd_line));
+			strand.post(boost::bind(&tcp_server::parsing_cmd, &server3, cmd_line));
 		}
 
 		io_service.stop();
