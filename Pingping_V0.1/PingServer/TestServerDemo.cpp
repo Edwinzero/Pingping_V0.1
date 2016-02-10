@@ -15,6 +15,8 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/asio.hpp>
 
+#include <timer.h>
+
 using boost::asio::ip::tcp;
 template<typename T>
 void LOGOUT(T& str){
@@ -65,20 +67,35 @@ public:
 		boost::asio::write(socket_, boost::asio::buffer(message_),
 			boost::asio::transfer_all(), error);
 		// Transfer images...
-		std::string file_path; size_t file_size = 0;
-		int total_imgs = 11;
-		boost::asio::streambuf header_buf;
-		{			
+		int total_imgs = 0;
+		boost::asio::streambuf totalimg_buf;
+		
+		{
+			// Recv header
+			boost::asio::read_until(socket_, totalimg_buf, "\n\n");
+			std::istream totalimg_stream(&totalimg_buf);
+			totalimg_stream >> total_imgs;
+			std::cout << "[PRE-REQUEST] :: TOTAL IMAGE NUMBER :: " << total_imgs << std::endl;
+			// send rcv
+			message_.assign("rcv", 4);
+			boost::asio::write(socket_, boost::asio::buffer(message_),
+				boost::asio::transfer_all(), error);
+
+			Timer rcv_speed;
+			rcv_speed.Start();
+
 			// Good way to send multiple command
 			for (int i = 0; i < total_imgs - 1; i++){
 				// Recv header
+				boost::asio::streambuf header_buf;
 				boost::asio::read_until(socket_, header_buf, "\n\n");
 				std::cout << "[1]  HEADER stream buf size is " << header_buf.size() << std::endl;
+				std::string file_path; size_t file_size = 0;
 				std::istream request_stream(&header_buf);
 				request_stream >> file_path;
-				DEBUG("file_path", file_path);
+				//DEBUG("file_path", file_path);
 				request_stream >> file_size;
-				DEBUG("file_size", file_size);
+				//DEBUG("file_size", file_size);
 				buffer_.resize(file_size);
 				std::cout << "buffer_ size is: " << buffer_.size() << std::endl;
 				request_stream.read(buffer_.data(), 2); // eat the "\n\n"
@@ -127,7 +144,7 @@ public:
 			}
 			//*
 			// Recv header
-			//boost::asio::streambuf header_buf;
+			boost::asio::streambuf header_buf;
 			boost::asio::read_until(socket_, header_buf, "\n\n");
 			//std::size_t len = socket_.read_some(boost::asio::buffer(buf), error);
 			// alloc buffer
@@ -172,6 +189,7 @@ public:
 				return;
 			}
 			//*/
+			rcv_speed.Print(">>> [TIMER] :: [RCV FILES] :: ** Total Recv time is ** ");
 		}
 
 	}
@@ -180,13 +198,10 @@ public:
 		return socket_;
 	}
 
-	int count;
-
 private:
 	tcp_connection(boost::asio::io_service& io_service)
 		: socket_(io_service)
 	{
-		count = 0;
 	}
 
 	tcp::socket socket_;
@@ -263,11 +278,9 @@ private:
 	{
 		image_session_ =
 			tcp_connection::create(acceptor_.get_io_service());
-
 		acceptor_.async_accept(image_session_->socket(),
 			boost::bind(&tcp_server::handle_accept, this, image_session_,
 			boost::asio::placeholders::error));
-
 	}
 
 	void handle_accept(tcp_connection::pointer new_connection,
@@ -278,7 +291,8 @@ private:
 		if (!error){
 			//image_session_->teststart();
 			// Maybe put time sychronization code here...
-
+			boost::asio::ip::tcp::no_delay option(true);
+			image_session_->getSocket().set_option(option);
 		}
 		// If open comment, will cause connection failed...
 		//start_accept();
