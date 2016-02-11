@@ -19,3 +19,4 @@ DO NOT ADD .sdf FILE WHEN ADDING NEW COMMIT
   10. Extraction info from config file which gets from server
   11. Configure filepath, id, ip etc on clients
   12. Time synchronization
+  13. encapsulate code into classes
