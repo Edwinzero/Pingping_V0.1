@@ -1,16 +1,57 @@
 #if 1
 #include <iostream>
+#include <string>
 
 namespace config{
-	const int NODE_0 = 0;
-	const int NODE_1 = 1;
-	const int NODE_2 = 2;
-	const int NODE_3 = 3;
 
-	const int PORT_0 = 1113;
-	const int PORT_1 = 1114;
-	const int PORT_2 = 1115;
-	const int PORT_3 = 1116;
+	const int NODE[4] = { 0, 1, 2, 3 };
+	const int PORT[4] = { 1113, 1114, 1115, 1116 };
+
+	const unsigned short getPORTFROMNODE(int i) {
+		switch (i) {
+		case 0:
+			return PORT[0];
+			break;
+		case 1:
+			return PORT[1];
+			break;
+		case 2:
+			return PORT[2];
+			break;
+		case 3:
+			return PORT[3];
+			break;
+		}
+	}
+
+	const unsigned short getNODEFROMPORT(int port) {
+		switch (port) {
+		case 0:
+			return NODE[0];
+			break;
+		case 1:
+			return NODE[1];
+			break;
+		case 2:
+			return NODE[2];
+			break;
+		case 3:
+			return NODE[3];
+			break;
+		}
+	}
+
+	// Kinect information
+	const char Serial_K0[13] = "506904442542";
+	const char Serial_K1[13] = "008427750247";
+	const char Serial_K2[13] = "501778742542";
+	const char Serial_K7[13] = "026340651247";
+	bug
+	const char* SERIAL_K[8] = { "506904442542", "008427750247",
+		"501778742542", "000000000000",
+		"000000000000", "000000000000",
+		"000000000000", "026340651247" };
+	
 };
 
 
