@@ -5,6 +5,8 @@ TCP communication framework for sensored network
 ## WARNNING:
 DO NOT ADD .sdf FILE WHEN ADDING NEW COMMIT
 
+## Current features:
+  1. Setup connection
 
 ## Develop schedule:
   1. Setup connection
